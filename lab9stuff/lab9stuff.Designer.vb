@@ -57,6 +57,9 @@ Partial Class lab9stuff
         Me.TextBox1.Size = New System.Drawing.Size(196, 22)
         Me.TextBox1.TabIndex = 2
         '
+        'ReadDataTimer
+        '
+        '
         'lab9stuff
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 16.0!)

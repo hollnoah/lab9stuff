@@ -49,17 +49,19 @@ Public Class lab9stuff
             Console.WriteLine($"Failed to open {selectedPort}: {ex.Message}")
         End Try
 
-        'ReadDataTimer.Start()
+        ReadDataTimer.Start()
 
     End Sub
 
     Sub Write()
         'writes a $ to the serial port to request data from the Q@ board
         If SerialPort1.IsOpen Then
-            SerialPort1.Write("$")
+            SerialPort1.Write("!")
         Else
             Console.WriteLine("Serial port is not open. Cannot write data.")
         End If
+
+
     End Sub
     '-------------------------------------------------EVENT HANDLERS----------------------------------------------------------------------------------------------------------
     Private Sub SerialPort1_DataReceived(sender As Object, e As SerialDataReceivedEventArgs) Handles SerialPort1.DataReceived
@@ -76,7 +78,7 @@ Public Class lab9stuff
 
     Private Sub ConnectButton_Click(sender As Object, e As EventArgs) Handles ConnectButton.Click
         Connect()
-        Write()
+        'Write()
     End Sub
 
     Private Sub ReadDataTimer_Tick(sender As Object, e As EventArgs) Handles ReadDataTimer.Tick
@@ -87,5 +89,12 @@ Public Class lab9stuff
             temp &= Chr(thing)
         Next
         Me.Text = temp
+
     End Sub
+
+    Private Sub lab9stuff_Click(sender As Object, e As EventArgs) Handles Me.Click
+        Write()
+    End Sub
+
+
 End Class
