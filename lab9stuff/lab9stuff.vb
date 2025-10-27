@@ -49,7 +49,8 @@ Public Class lab9stuff
             Console.WriteLine($"Failed to open {selectedPort}: {ex.Message}")
         End Try
 
-        ReadDataTimer.Start()
+        'ReadDataTimer.Start()
+
     End Sub
 
     Sub Write()
@@ -75,7 +76,7 @@ Public Class lab9stuff
 
     Private Sub ConnectButton_Click(sender As Object, e As EventArgs) Handles ConnectButton.Click
         Connect()
-        'Write()
+        Write()
     End Sub
 
     Private Sub ReadDataTimer_Tick(sender As Object, e As EventArgs) Handles ReadDataTimer.Tick
