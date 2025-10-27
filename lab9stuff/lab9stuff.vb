@@ -51,12 +51,21 @@ Public Class lab9stuff
 
         ReadDataTimer.Start()
     End Sub
+
+    Sub Write()
+        'writes a $ to the serial port to request data from the Q@ board
+        If SerialPort1.IsOpen Then
+            SerialPort1.Write("$")
+        Else
+            Console.WriteLine("Serial port is not open. Cannot write data.")
+        End If
+    End Sub
     '-------------------------------------------------EVENT HANDLERS----------------------------------------------------------------------------------------------------------
     Private Sub SerialPort1_DataReceived(sender As Object, e As SerialDataReceivedEventArgs) Handles SerialPort1.DataReceived
         CheckForIllegalCrossThreadCalls = False
 
-        Dim dataReceived As String = SerialPort1.BytesToRead
-        TextBox1.Text = datareceived
+        Dim dataReceived As String = SerialPort1.ReadExisting()
+        TextBox1.Text = dataReceived
     End Sub
 
     Private Sub ComboBox1_DropDown(sender As Object, e As EventArgs) Handles ComboBox1.DropDown
