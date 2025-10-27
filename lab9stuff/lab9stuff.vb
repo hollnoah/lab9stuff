@@ -1,6 +1,7 @@
 ﻿Imports System.IO.Ports
 Imports System.Windows.Forms.VisualStyles.VisualStyleElement
 
+
 Public Class lab9stuff
     Sub PopulatePorts()
         Dim portNames() As String = SerialPort.GetPortNames()
