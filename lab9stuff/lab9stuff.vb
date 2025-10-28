@@ -56,7 +56,7 @@ Public Class lab9stuff
     Sub Write()
         'writes a $ to the serial port to request data from the Q@ board
         If SerialPort1.IsOpen Then
-            SerialPort1.Write("$")
+            SerialPort1.Write(TextBox1.Text)
         Else
             Console.WriteLine("Serial port is not open. Cannot write data.")
         End If
