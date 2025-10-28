@@ -36,14 +36,14 @@ Partial Class lab9stuff
         'ComboBox1
         '
         Me.ComboBox1.FormattingEnabled = True
-        Me.ComboBox1.Location = New System.Drawing.Point(397, 185)
+        Me.ComboBox1.Location = New System.Drawing.Point(644, 319)
         Me.ComboBox1.Name = "ComboBox1"
-        Me.ComboBox1.Size = New System.Drawing.Size(131, 24)
+        Me.ComboBox1.Size = New System.Drawing.Size(144, 24)
         Me.ComboBox1.TabIndex = 0
         '
         'ConnectButton
         '
-        Me.ConnectButton.Location = New System.Drawing.Point(383, 87)
+        Me.ConnectButton.Location = New System.Drawing.Point(644, 377)
         Me.ConnectButton.Name = "ConnectButton"
         Me.ConnectButton.Size = New System.Drawing.Size(144, 61)
         Me.ConnectButton.TabIndex = 1
@@ -52,9 +52,9 @@ Partial Class lab9stuff
         '
         'TextBox1
         '
-        Me.TextBox1.Location = New System.Drawing.Point(429, 283)
+        Me.TextBox1.Location = New System.Drawing.Point(644, 349)
         Me.TextBox1.Name = "TextBox1"
-        Me.TextBox1.Size = New System.Drawing.Size(196, 22)
+        Me.TextBox1.Size = New System.Drawing.Size(144, 22)
         Me.TextBox1.TabIndex = 2
         '
         'ReadDataTimer
