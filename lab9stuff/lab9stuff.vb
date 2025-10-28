@@ -50,7 +50,6 @@ Public Class lab9stuff
         End Try
 
         ReadDataTimer.Start()
-
     End Sub
 
     Sub Write()
@@ -60,8 +59,6 @@ Public Class lab9stuff
         Else
             Console.WriteLine("Serial port is not open. Cannot write data.")
         End If
-
-
     End Sub
     '-------------------------------------------------EVENT HANDLERS----------------------------------------------------------------------------------------------------------
     Private Sub SerialPort1_DataReceived(sender As Object, e As SerialDataReceivedEventArgs) Handles SerialPort1.DataReceived
@@ -78,7 +75,9 @@ Public Class lab9stuff
 
     Private Sub ConnectButton_Click(sender As Object, e As EventArgs) Handles ConnectButton.Click
         Connect()
-
+    End Sub
+    Private Sub SendButton_Click(sender As Object, e As EventArgs) Handles SendButton.Click
+        Write()
     End Sub
 
     Private Sub ReadDataTimer_Tick(sender As Object, e As EventArgs) Handles ReadDataTimer.Tick
@@ -89,12 +88,6 @@ Public Class lab9stuff
             temp &= Chr(thing)
         Next
         Me.Text = temp
-
-    End Sub
-
-    Private Sub SendButton_Click(sender As Object, e As EventArgs) Handles SendButton.Click
-        Write()
-
     End Sub
 
 End Class
