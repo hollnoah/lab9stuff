@@ -28,6 +28,7 @@ Partial Class lab9stuff
         Me.ConnectButton = New System.Windows.Forms.Button()
         Me.TextBox1 = New System.Windows.Forms.TextBox()
         Me.ReadDataTimer = New System.Windows.Forms.Timer(Me.components)
+        Me.SendButton = New System.Windows.Forms.Button()
         Me.SuspendLayout()
         '
         'SerialPort1
@@ -52,7 +53,7 @@ Partial Class lab9stuff
         '
         'TextBox1
         '
-        Me.TextBox1.Location = New System.Drawing.Point(644, 349)
+        Me.TextBox1.Location = New System.Drawing.Point(482, 321)
         Me.TextBox1.Name = "TextBox1"
         Me.TextBox1.Size = New System.Drawing.Size(144, 22)
         Me.TextBox1.TabIndex = 2
@@ -60,11 +61,21 @@ Partial Class lab9stuff
         'ReadDataTimer
         '
         '
+        'SendButton
+        '
+        Me.SendButton.Location = New System.Drawing.Point(482, 377)
+        Me.SendButton.Name = "SendButton"
+        Me.SendButton.Size = New System.Drawing.Size(143, 60)
+        Me.SendButton.TabIndex = 3
+        Me.SendButton.Text = "Send"
+        Me.SendButton.UseVisualStyleBackColor = True
+        '
         'lab9stuff
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(800, 450)
+        Me.Controls.Add(Me.SendButton)
         Me.Controls.Add(Me.TextBox1)
         Me.Controls.Add(Me.ConnectButton)
         Me.Controls.Add(Me.ComboBox1)
@@ -80,4 +91,5 @@ Partial Class lab9stuff
     Friend WithEvents ConnectButton As Button
     Friend WithEvents TextBox1 As TextBox
     Friend WithEvents ReadDataTimer As Timer
+    Friend WithEvents SendButton As Button
 End Class

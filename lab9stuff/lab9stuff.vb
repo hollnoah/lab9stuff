@@ -78,7 +78,7 @@ Public Class lab9stuff
 
     Private Sub ConnectButton_Click(sender As Object, e As EventArgs) Handles ConnectButton.Click
         Connect()
-        'Write()
+
     End Sub
 
     Private Sub ReadDataTimer_Tick(sender As Object, e As EventArgs) Handles ReadDataTimer.Tick
@@ -92,9 +92,8 @@ Public Class lab9stuff
 
     End Sub
 
-    Private Sub lab9stuff_Click(sender As Object, e As EventArgs) Handles Me.Click
+    Private Sub SendButton_Click(sender As Object, e As EventArgs) Handles SendButton.Click
         Write()
+
     End Sub
-
-
 End Class
