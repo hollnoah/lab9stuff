@@ -96,4 +96,5 @@ Public Class lab9stuff
         Write()
 
     End Sub
+
 End Class
