@@ -1,6 +1,6 @@
 ﻿Imports System.IO.Ports
 Imports System.Windows.Forms.VisualStyles.VisualStyleElement
-
+Imports System.Text
 
 Public Class lab9stuff
     Sub PopulatePorts()
@@ -53,12 +53,41 @@ Public Class lab9stuff
     End Sub
 
     Sub Write()
-        'writes a $ to the serial port to request data from the Q@ board
-        If SerialPort1.IsOpen Then
-            SerialPort1.Write(TextBox1.Text)
-        Else
+        If Not SerialPort1.IsOpen Then
             Console.WriteLine("Serial port is not open. Cannot write data.")
+            Return
         End If
+
+        Dim raw As String = TextBox1.Text.Trim()
+        Dim us As Integer
+        If Not Integer.TryParse(raw, us) Then
+            Console.WriteLine("Enter pulse width in microseconds (e.g. 500-2500).")
+            Return
+        End If
+
+        ' Clamp to typical servo range
+        Dim minUs As Integer = 500
+        Dim maxUs As Integer = 2500
+        If us < minUs Then us = minUs
+        If us > maxUs Then us = maxUs
+
+        ' Map 500..2500 us -> 0..255
+        Dim scaled As Integer = CInt((us - minUs) * 255 / (maxUs - minUs))
+        If scaled < 0 Then scaled = 0
+        If scaled > 255 Then scaled = 255
+
+        Dim message As String = "$" & scaled.ToString() & vbCrLf
+
+        ' Debug: show ASCII and hex bytes being sent
+        Dim bytes() As Byte = Encoding.ASCII.GetBytes(message)
+        Console.WriteLine("Sending ASCII: " & message.Replace(vbCrLf, "\r\n"))
+        Console.WriteLine("Sending HEX: " & BitConverter.ToString(bytes))
+
+        Try
+            SerialPort1.Write(message)
+        Catch ex As Exception
+            Console.WriteLine($"Write failed: {ex.Message}")
+        End Try
     End Sub
     '-------------------------------------------------EVENT HANDLERS----------------------------------------------------------------------------------------------------------
     Private Sub SerialPort1_DataReceived(sender As Object, e As SerialDataReceivedEventArgs) Handles SerialPort1.DataReceived
