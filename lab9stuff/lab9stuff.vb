@@ -101,9 +101,8 @@ Public Class lab9stuff
         Else
             Console.WriteLine("Serial port is not open. Cannot write data.")
         End If
-
-
     End Sub
+
     '-------------------------------------------------EVENT HANDLERS----------------------------------------------------------------------------------------------------------
     Private Sub SerialPort1_DataReceived(sender As Object, e As SerialDataReceivedEventArgs) Handles SerialPort1.DataReceived
         CheckForIllegalCrossThreadCalls = False
@@ -137,5 +136,12 @@ Public Class lab9stuff
 
     Private Sub TrackBar1_ValueChanged(sender As Object, e As EventArgs) Handles TrackBar1.ValueChanged
         Write()
+    End Sub
+    Private Sub ADCRequestButton_Click(sender As Object, e As EventArgs) Handles ADCRequestButton.Click
+        If SerialPort1.IsOpen Then
+            SerialPort1.Write("!")  ' send the special character
+        Else
+            MessageBox.Show("Serial port not open.")
+        End If
     End Sub
 End Class

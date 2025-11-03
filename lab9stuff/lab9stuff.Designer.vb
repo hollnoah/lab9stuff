@@ -30,6 +30,7 @@ Partial Class lab9stuff
         Me.ReadDataTimer = New System.Windows.Forms.Timer(Me.components)
         Me.SendButton = New System.Windows.Forms.Button()
         Me.TrackBar1 = New System.Windows.Forms.TrackBar()
+        Me.ADCRequestButton = New System.Windows.Forms.Button()
         CType(Me.TrackBar1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -65,7 +66,7 @@ Partial Class lab9stuff
         '
         'SendButton
         '
-        Me.SendButton.Location = New System.Drawing.Point(482, 377)
+        Me.SendButton.Location = New System.Drawing.Point(483, 378)
         Me.SendButton.Name = "SendButton"
         Me.SendButton.Size = New System.Drawing.Size(143, 60)
         Me.SendButton.TabIndex = 3
@@ -80,11 +81,21 @@ Partial Class lab9stuff
         Me.TrackBar1.Size = New System.Drawing.Size(375, 56)
         Me.TrackBar1.TabIndex = 4
         '
+        'ADCRequestButton
+        '
+        Me.ADCRequestButton.Location = New System.Drawing.Point(323, 377)
+        Me.ADCRequestButton.Name = "ADCRequestButton"
+        Me.ADCRequestButton.Size = New System.Drawing.Size(143, 61)
+        Me.ADCRequestButton.TabIndex = 5
+        Me.ADCRequestButton.Text = "Request"
+        Me.ADCRequestButton.UseVisualStyleBackColor = True
+        '
         'lab9stuff
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(800, 450)
+        Me.Controls.Add(Me.ADCRequestButton)
         Me.Controls.Add(Me.TrackBar1)
         Me.Controls.Add(Me.SendButton)
         Me.Controls.Add(Me.TextBox1)
@@ -105,4 +116,5 @@ Partial Class lab9stuff
     Friend WithEvents ReadDataTimer As Timer
     Friend WithEvents SendButton As Button
     Friend WithEvents TrackBar1 As TrackBar
+    Friend WithEvents ADCRequestButton As Button
 End Class
