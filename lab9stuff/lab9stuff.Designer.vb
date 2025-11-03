@@ -1,9 +1,9 @@
-﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
 Partial Class lab9stuff
     Inherits System.Windows.Forms.Form
 
     'Form overrides dispose to clean up the component list.
-    <System.Diagnostics.DebuggerNonUserCode()> _
+    <System.Diagnostics.DebuggerNonUserCode()>
     Protected Overrides Sub Dispose(ByVal disposing As Boolean)
         Try
             If disposing AndAlso components IsNot Nothing Then
@@ -20,7 +20,7 @@ Partial Class lab9stuff
     'NOTE: The following procedure is required by the Windows Form Designer
     'It can be modified using the Windows Form Designer.  
     'Do not modify it using the code editor.
-    <System.Diagnostics.DebuggerStepThrough()> _
+    <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
         Me.SerialPort1 = New System.IO.Ports.SerialPort(Me.components)
@@ -29,6 +29,8 @@ Partial Class lab9stuff
         Me.TextBox1 = New System.Windows.Forms.TextBox()
         Me.ReadDataTimer = New System.Windows.Forms.Timer(Me.components)
         Me.SendButton = New System.Windows.Forms.Button()
+        Me.TrackBar1 = New System.Windows.Forms.TrackBar()
+        CType(Me.TrackBar1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'SerialPort1
@@ -70,17 +72,27 @@ Partial Class lab9stuff
         Me.SendButton.Text = "Send"
         Me.SendButton.UseVisualStyleBackColor = True
         '
+        'TrackBar1
+        '
+        Me.TrackBar1.Location = New System.Drawing.Point(413, 212)
+        Me.TrackBar1.Maximum = 15
+        Me.TrackBar1.Name = "TrackBar1"
+        Me.TrackBar1.Size = New System.Drawing.Size(375, 56)
+        Me.TrackBar1.TabIndex = 4
+        '
         'lab9stuff
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(800, 450)
+        Me.Controls.Add(Me.TrackBar1)
         Me.Controls.Add(Me.SendButton)
         Me.Controls.Add(Me.TextBox1)
         Me.Controls.Add(Me.ConnectButton)
         Me.Controls.Add(Me.ComboBox1)
         Me.Name = "lab9stuff"
         Me.Text = "Form1"
+        CType(Me.TrackBar1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -92,4 +104,5 @@ Partial Class lab9stuff
     Friend WithEvents TextBox1 As TextBox
     Friend WithEvents ReadDataTimer As Timer
     Friend WithEvents SendButton As Button
+    Friend WithEvents TrackBar1 As TrackBar
 End Class

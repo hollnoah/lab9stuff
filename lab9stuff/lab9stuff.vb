@@ -54,9 +54,50 @@ Public Class lab9stuff
     End Sub
 
     Sub Write()
+        Dim data(1) As Byte
+        data(0) = &H24
+        Select Case TrackBar1.Value
+            Case 0
+                data(1) = &H32
+            Case 1
+                data(1) = &H3F
+            Case 2
+                data(1) = &H4C
+            Case 3
+                data(1) = &H59
+            Case 4
+                data(1) = &H66
+            Case 5
+                data(1) = &H73
+            Case 6
+                data(1) = &H80
+            Case 7
+                data(1) = &H8D
+            Case 8
+                data(1) = &H9A
+            Case 9
+                data(1) = &HA7
+            Case 10
+                data(1) = &HB4
+            Case 11
+                data(1) = &HC1
+            Case 12
+                data(1) = &HCE
+            Case 13
+                data(1) = &HDB
+            Case 14
+                data(1) = &HE8
+            Case 15
+                data(1) = &HFA
+        End Select
+
+
+
         'writes a $ to the serial port to request data from the Q@ board
         If SerialPort1.IsOpen Then
-            SerialPort1.Write(TextBox1.Text)
+            ' SerialPort1.Write(TextBox1.Text)
+            SerialPort1.Write(data, 0, 2)
+            'SerialPort1.Write(TrackBar1.Value)
         Else
             Console.WriteLine("Serial port is not open. Cannot write data.")
         End If
@@ -92,11 +133,9 @@ Public Class lab9stuff
         Next
         Me.Text = temp
 
-
-
-
-
-
     End Sub
 
+    Private Sub TrackBar1_ValueChanged(sender As Object, e As EventArgs) Handles TrackBar1.ValueChanged
+        Write()
+    End Sub
 End Class
