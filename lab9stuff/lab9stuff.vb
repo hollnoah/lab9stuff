@@ -137,17 +137,14 @@ Public Class lab9stuff
     Private Sub TrackBar1_ValueChanged(sender As Object, e As EventArgs) Handles TrackBar1.ValueChanged
         Write()
     End Sub
-    'Private Sub ADCRequestButton_Click(sender As Object, e As EventArgs) Handles ADCRequestButton.Click
-    '    If SerialPort1.IsOpen Then
-    '        SerialPort1.Write("!")  ' send the special character
-    '    Else
-    '        MessageBox.Show("Serial port not open.")
-    '    End If
-    'End Sub
 
     Private Sub ADCRequestButton_Click(sender As Object, e As EventArgs) Handles ADCRequestButton.Click
         ' --- Ask PIC for ADC data ---
-        SerialPort1.Write("!")   ' Send request character
+        If SerialPort1.IsOpen Then
+            SerialPort1.Write("!")   ' Send request character
+        Else
+            MessageBox.Show("serial port not open")
+        End If
 
         ' --- Read back the two ADC bytes ---
         Dim highByte As Integer = SerialPort1.ReadByte()
