@@ -162,14 +162,18 @@ Public Class lab9stuff
             While receivedBytes.Count >= 2
                 Dim highByte As Integer = receivedBytes(0)
                 Dim lowByte As Integer = receivedBytes(1)
-                Dim adcValue As Integer = (highByte << 8) Or lowByte
 
-                TextBox1.Text = adcValue.ToString()
+                ' Debug: show hex values in textbox
+                TextBox1.Text = highByte.ToString("X2") & " " & lowByte.ToString("X2")
+
+                Dim adcValue As Integer = (highByte << 8) Or lowByte
+                ' TextBox1.Text = adcValue.ToString()   ' <-- later, once confirmed
 
                 receivedBytes.RemoveRange(0, 2)
             End While
         End SyncLock
     End Sub
+
 
 
     Private Sub lab9stuff_FormClosing(sender As Object, e As FormClosingEventArgs) Handles Me.FormClosing
