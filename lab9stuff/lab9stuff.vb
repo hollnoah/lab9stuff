@@ -3,8 +3,8 @@ Imports System.Windows.Forms.VisualStyles.VisualStyleElement
 
 
 Public Class lab9stuff
-    Private receivedBytes As New List(Of Byte)
-    Private closingForm As Boolean = False
+    'Private receivedBytes As New List(Of Byte)
+    'Private closingForm As Boolean = False
 
     Sub PopulatePorts()
         Dim portNames() As String = SerialPort.GetPortNames()
@@ -107,79 +107,169 @@ Public Class lab9stuff
     End Sub
 
     '-------------------------------------------------EVENT HANDLERS----------------------------------------------------------------------------------------------------------
-    'Private Sub SerialPort1_DataReceived(sender As Object, e As SerialDataReceivedEventArgs) Handles SerialPort1.DataReceived
-    '    CheckForIllegalCrossThreadCalls = False
 
-    '    Dim byteMyData(SerialPort1.BytesToRead - 1) As Byte
-    '    SerialPort1.Read(byteMyData, 0, byteMyData.Length)
 
-    '    ' We expect 2 bytes for ADC
-    '    If byteMyData.Length >= 2 Then
-    '        Dim highByte As Integer = byteMyData(0)
-    '        Dim lowByte As Integer = byteMyData(1)
-    '        Dim adcValue As Integer = (highByte * 256) + lowByte
-    '        TextBox1.Text = adcValue.ToString()
-    '    End If
+    ' Class-level variables (you already have these)
+    Private receivedBytes As New List(Of Byte)
+    Private closingForm As Boolean = False
+    Private Const START_MARKER As Byte = &H7E ' '~'
 
-    '    'Dim dataReceived As String = SerialPort1.ReadExisting()
-    '    'TextBox1.Text = dataReceived
-    'End Sub
-
-    'Private Sub SerialPort1_DataReceived(sender As Object, e As SerialDataReceivedEventArgs) Handles SerialPort1.DataReceived
-    '    Dim buffer(SerialPort1.BytesToRead - 1) As Byte
-    '    SerialPort1.Read(buffer, 0, buffer.Length)
-
-    '    ' Temporary debug: just print all incoming bytes
-    '    Dim debugString As String = ""
-    '    For Each b In buffer
-    '        debugString &= b.ToString("X2") & " "
-    '    Next
-    '    Me.Invoke(Sub() TextBox1.Text = debugString)
-    'End Sub
-
+    ' DataReceived: append bytes to buffer, schedule processing (non-blocking)
     Private Sub SerialPort1_DataReceived(sender As Object, e As SerialDataReceivedEventArgs) Handles SerialPort1.DataReceived
-        If closingForm Then Return ' Ignore if form is closing
+        If closingForm Then Return
 
-        Dim buffer(SerialPort1.BytesToRead - 1) As Byte
-        SerialPort1.Read(buffer, 0, buffer.Length)
+        Try
+            Dim count = SerialPort1.BytesToRead
+            If count <= 0 Then Return
+            Dim buffer(count - 1) As Byte
+            SerialPort1.Read(buffer, 0, count)
 
-        SyncLock receivedBytes
-            receivedBytes.AddRange(buffer)
-        End SyncLock
+            SyncLock receivedBytes
+                receivedBytes.AddRange(buffer)
+            End SyncLock
 
-        ' Invoke UI update safely
-        If Not closingForm Then
-            Try
-                Me.Invoke(Sub() ProcessReceivedData())
-            Catch ex As Exception
-                ' Ignore errors if form is closing
-            End Try
-        End If
+            ' Use BeginInvoke to avoid blocking when form is closing
+            If Not closingForm Then
+                Try
+                    Me.BeginInvoke(Sub() ProcessReceivedData())
+                Catch ex As Exception
+                    ' ignore if form closing
+                End Try
+            End If
+        Catch ex As Exception
+            ' You can optionally log ex.Message for debugging
+        End Try
     End Sub
 
+
+    'Private Sub ProcessReceivedData()
+    '    If closingForm Then Return
+
+    '    SyncLock receivedBytes
+    '        ' Keep scanning until no full packet left
+    '        While receivedBytes.Count >= 3
+    '            ' find marker
+    '            Dim foundIndex As Integer = -1
+    '            For idx = 0 To receivedBytes.Count - 3
+    '                If receivedBytes(idx) = START_MARKER Then
+    '                    foundIndex = idx
+    '                    Exit For
+    '                End If
+    '            Next
+
+    '            If foundIndex = -1 Then
+    '                ' no marker found; drop leading bytes that can't start a packet
+    '                If receivedBytes.Count > 2 Then
+    '                    ' keep last two in case they form the start of the next packet
+    '                    receivedBytes.RemoveRange(0, receivedBytes.Count - 2)
+    '                End If
+    '                Exit While
+    '            End If
+
+    '            ' If marker found but not enough bytes for full packet, wait
+    '            If receivedBytes.Count - foundIndex < 3 Then Exit While
+
+
+    '            ' Inside ProcessReceivedData(), after you've identified the packet:
+    '            Dim high As Integer = receivedBytes(foundIndex + 1)
+    '            Dim low As Integer = receivedBytes(foundIndex + 2)
+
+    '            ' Combine into 10-bit ADC value
+    '            Dim adcValue As Integer = ((high << 8) Or low) And &H3FF   ' mask to 10 bits
+
+    '            TextBox1.Text = adcValue.ToString()
+
+    '            ' Remove the processed bytes from the list
+    '            receivedBytes.RemoveRange(0, foundIndex + 3)
+
+
+
+    '            ' Update UI
+    '            TextBox1.Text = adcValue.ToString()
+
+    '            ' Remove up to and including the full packet we processed
+    '            Dim packetLength As Integer = 3 ' marker + high byte + low byte
+    '            If foundIndex + packetLength <= receivedBytes.Count Then
+    '                ' Safe to remove
+    '                receivedBytes.RemoveRange(0, foundIndex + packetLength)
+    '            Else
+    '                ' Wait for more bytes before removing anything
+    '                Exit While
+    '            End If
+
+    '        End While
+    '    End SyncLock
+    'End Sub
+
+    'Private Sub ProcessReceivedData()
+    '    If closingForm Then Return
+
+    '    SyncLock receivedBytes
+    '        ' Keep scanning until no full packet left
+    '        Dim i As Integer = 0
+    '        While True
+    '            ' Find the start marker (~)
+    '            Dim foundIndex As Integer = receivedBytes.IndexOf(&H7E)
+    '            If foundIndex = -1 OrElse receivedBytes.Count < foundIndex + 3 Then Exit While
+
+    '            ' Extract high and low bytes
+    '            Dim highByte As Integer = receivedBytes(foundIndex + 1)
+    '            Dim lowByte As Integer = receivedBytes(foundIndex + 2)
+
+    '            ' Reconstruct 10-bit ADC (left-justified)
+    '            Dim adcValue As Integer = (highByte << 2) Or (lowByte >> 6)
+
+    '            ' Update UI
+    '            TextBox1.Text = adcValue.ToString()
+
+    '            ' Remove processed packet
+    '            receivedBytes.RemoveRange(0, foundIndex + 3)
+    '        End While
+    '    End SyncLock
+    'End Sub
+
     Private Sub ProcessReceivedData()
+        If closingForm Then Return
+
         SyncLock receivedBytes
-            While receivedBytes.Count >= 2
-                Dim highByte As Integer = receivedBytes(0)
-                Dim lowByte As Integer = receivedBytes(1)
+            While receivedBytes.Count >= 3
+                ' Look for start marker
+                If receivedBytes(0) <> &H7E Then
+                    ' Drop garbage bytes until we find marker
+                    receivedBytes.RemoveAt(0)
+                    Continue While
+                End If
 
-                ' Debug: show hex values in textbox
-                TextBox1.Text = highByte.ToString("X2") & " " & lowByte.ToString("X2")
+                ' Full packet available?
+                If receivedBytes.Count < 3 Then Exit While
 
-                Dim adcValue As Integer = (highByte << 8) Or lowByte
-                ' TextBox1.Text = adcValue.ToString()   ' <-- later, once confirmed
+                Dim highByte As Integer = receivedBytes(1)
+                Dim lowByte As Integer = receivedBytes(2)
 
-                receivedBytes.RemoveRange(0, 2)
+                ' Left-justified reconstruction
+                Dim adcValue As Integer = (highByte << 2) Or (lowByte >> 6)
+
+                TextBox1.Text = adcValue.ToString()
+
+                ' Remove this packet
+                receivedBytes.RemoveRange(0, 3)
             End While
         End SyncLock
     End Sub
 
 
-
     Private Sub lab9stuff_FormClosing(sender As Object, e As FormClosingEventArgs) Handles Me.FormClosing
         closingForm = True
-        If SerialPort1.IsOpen Then SerialPort1.Close()
+        Try
+            If SerialPort1 IsNot Nothing AndAlso SerialPort1.IsOpen Then
+                SerialPort1.DiscardInBuffer()
+                SerialPort1.Close()
+            End If
+        Catch ex As Exception
+            ' ignore
+        End Try
     End Sub
+
 
 
 
@@ -219,12 +309,6 @@ Public Class lab9stuff
             MessageBox.Show("serial port not open")
         End If
 
-        'If SerialPort1.BytesToRead >= 2 Then
-        '    Dim highByte As Integer = SerialPort1.ReadByte()
-        '    Dim lowByte As Integer = SerialPort1.ReadByte()
-        '    Dim adcValue As Integer = (highByte * 256) + lowByte
-        '    TextBox1.Text = adcValue.ToString()
-        'End If
     End Sub
 
 
