@@ -206,30 +206,10 @@ Public Class lab9stuff
         Write()
     End Sub
 
-    'Private Sub ReadDataTimer_Tick(sender As Object, e As EventArgs) Handles ReadDataTimer.Tick
-    '    Dim byteMyData(SerialPort1.BytesToRead) As Byte
-    '    Dim temp As String
-    '    SerialPort1.Read(byteMyData, 0, SerialPort1.BytesToRead)
-    '    For Each thing In byteMyData
-    '        temp &= Chr(thing)
-    '    Next
-    '    Me.Text = temp
-
-    'End Sub
 
     Private Sub TrackBar1_ValueChanged(sender As Object, e As EventArgs) Handles TrackBar1.ValueChanged
         Write()
     End Sub
-
-    'Private Sub ADCRequestButton_Click(sender As Object, e As EventArgs) Handles ADCRequestButton.Click
-    '    ' --- Ask PIC for ADC data ---
-    '    If SerialPort1.IsOpen Then
-    '        SerialPort1.Write("!")   ' Send request character
-    '    Else
-    '        MessageBox.Show("serial port not open")
-    '    End If
-
-    'End Sub
 
     Private Async Sub ADCRequestButton_Click(sender As Object, e As EventArgs) Handles ADCRequestButton.Click
         ' --- Ask PIC for ADC data ---
