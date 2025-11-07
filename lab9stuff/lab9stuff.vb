@@ -3,8 +3,6 @@ Imports System.Windows.Forms.VisualStyles.VisualStyleElement
 
 
 Public Class lab9stuff
-    'Private receivedBytes As New List(Of Byte)
-    'Private closingForm As Boolean = False
 
     Sub PopulatePorts()
         Dim portNames() As String = SerialPort.GetPortNames()
